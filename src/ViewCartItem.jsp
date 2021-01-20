@@ -7,6 +7,7 @@
 <%
     List<int> arrayItemID = (List<int>) session.getAttribute("arrayItemID");
     List<int> arrayItemQty = (List<int>) session.getAttribute("arrayItemQty");
+    //TODO: takda CartItem object
     List<CartItem> cartItems = new ArrayList<CartItem>();
     try {
         Class.forName("oracle.jdbc.driver.OracleDriver");
