@@ -1,4 +1,5 @@
 **KONICHIWA CAFE**
+---
 
 Konichiwa Café is the first Japanese Muslim Restaurant in Malaysia that sells Japanese Muslim Cuisine and western which is located at Section 1, Bangi. This restaurant who is a Syariah Compliance Restaurant is a premier and creative Japanese Restaurant that has been proudly serving the local and tourist beyond since 2016. Their mission is to provide high quality Asian food for those who seek skillful cooking and an extraordinary Previously, this café take order manually by taking order only on the counter. 
 
