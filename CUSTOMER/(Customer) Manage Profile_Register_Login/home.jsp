@@ -13,6 +13,8 @@
 <h1>Hi <c:out value="${customer.fname} ${customer.lname}" /> !</h1>
 <br>
 <br>
+<a href="ItemController?action=viewItem">View Menu</a>
+<br>
 <a href="CustomerController?action=viewCustomer&i=<%= session.getAttribute("custid") %>">My Account</a>
 <br>
 <a href="CustomerController?action=logout&i=<%= session.getAttribute("custid") %>">Logout</a>
