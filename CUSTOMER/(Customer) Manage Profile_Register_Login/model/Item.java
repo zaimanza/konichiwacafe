@@ -9,12 +9,12 @@ public class Item {
 	private String image;
 	private int stock;
 	private String description;
-	private int itemcategoryid;
+	private String itemcategoryid;
 	private List<Item> items;
 	
 	public Item () {}
 
-	public Item(int itemid, String name, Double price, String image, int stock, String description,int itemcategoryid) {
+	public Item(int itemid, String name, Double price, String image, int stock, String description,String itemcategoryid) {
 		this.itemid = itemid;
 		this.name = name;
 		this.price = price;
@@ -72,11 +72,11 @@ public class Item {
 		this.description = description;
 	}
 	
-	public int getItemcategoryid() {
+	public String getItemcategoryid() {
 		return itemcategoryid;
 	}
 
-	public void setItemcategoryid(int itemcategoryid) {
+	public void setItemcategoryid(String itemcategoryid) {
 		this.itemcategoryid = itemcategoryid;
 	}
 	
