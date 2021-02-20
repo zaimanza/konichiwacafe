@@ -42,7 +42,11 @@ public class OrdersDAO {
 				
 				order.setCustID(rs.getInt("riderID"));
 				
-				order.setOrderDate(rs.getString("orderDate"));
+				Date date = rs.getDate("orderDate");
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm aa"); 
+				String orderdate = dateFormat.format(date);
+				order.setOrderDate(orderdate);
+								
 				order.setOrderStatus(rs.getString("orderStatus"));
 				order.setPaymentID(rs.getInt("paymentID"));
 				order.setCustID(rs.getInt("custID"));
@@ -218,7 +222,7 @@ public class OrdersDAO {
 				order.setDeliveryAddress(rs.getString("DeliveryAddress"));
 				order.setOrderStatus(rs.getString("orderStatus"));
 				Date date = rs.getDate("orderDate");
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy"); 
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm aa"); 
 				String orderdate = dateFormat.format(date);
 				order.setOrderDate(orderdate);
 				orders.add(order);
@@ -243,7 +247,10 @@ public class OrdersDAO {
 	        if (rs.next()) {
 	        	orders.setOrderID(rs.getInt("orderID"));
 	        	orders.setDeliveryAddress(rs.getString("DeliveryAddress"));
-	        	orders.setOrderDate(rs.getString("orderDate"));
+	        	Date date = rs.getDate("orderDate");
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm aa"); 
+				String orderdate = dateFormat.format(date);
+				orders.setOrderDate(orderdate);
 	        	orders.setOrderStatus(rs.getString("orderStatus"));
 	        	
 	        }
@@ -370,7 +377,10 @@ public class OrdersDAO {
 				Orders orders = new Orders();
 				
 				orders.setOrderID(rs.getInt("orderID"));
-				orders.setOrderDate(rs.getString("orderDate"));
+				Date date = rs.getDate("orderDate");
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm aa"); 
+				String orderdate = dateFormat.format(date);
+				orders.setOrderDate(orderdate);
 				orders.setOrderStatus(rs.getString("orderStatus"));
 				
 				orderz.add(orders);

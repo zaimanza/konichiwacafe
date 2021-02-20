@@ -111,49 +111,59 @@
 		<div align="center">
 		<br><br><br>
 			<h2>My Order</h2>
-			
-			<div class="cart-table">
-				<table class="address">
-					<tr>
-						<th>No.</th>
-						<th>Order No.</th>
-						<th>Order Date</th>
-						<th>Order Status</th>
-					</tr>
-					<c:if test="${not empty order }">
-					<c:forEach items="${order}" var="orders">
-						<% bill++;%>
+			<c:choose>
+				<c:when test="${empty order}">
+					<div class="cart-table">
+						<table class="address">
+							<tr>
+								<th>No.</th>
+								<th>Order No.</th>
+								<th>Order Date</th>
+								<th>Order Status</th>
+							</tr>
+				        	<tr>
+				        		<td colspan=4 align="center">No order</td>
+				        	</tr>
+				        </table>
+				   </div>       	
+				</c:when>
+				<c:otherwise>
+				<div class="cart-table">
+					<table class="address">
 						<tr>
-							<td><% out.print(bill);%></td>
-							<td><a href="OrdersController?action=orderdetails&i=<c:out value="${orders.orderID}" />"><c:out value="${orders.orderID}" /></a></td>
-							<td><c:out value="${orders.getOrderDate()}" /></td>
-							
-							<c:if test="${orders.getOrderStatus().equals('1')}">
-							<td><c:out value="Order received" /></td>
-							</c:if>  
-							<c:if test="${orders.getOrderStatus().equals('2')}">
-								<td><c:out value="Order is being prepared" /></td>
-							</c:if>  
-							<c:if test="${orders.getOrderStatus().equals('3')}">
-								<td><c:out value="Order is ready for delivery" /></td>
-							</c:if>
-							<c:if test="${orders.getOrderStatus().equals('4')}">
-								<td><c:out value="Order has been picked up by Rider" /></td>
-							</c:if>
-							<c:if test="${orders.getOrderStatus().equals('5')}">
-								<td><c:out value="Order has been delivered" /></td>
-							</c:if>
+							<th>No.</th>
+							<th>Order No.</th>
+							<th>Order Date</th>
+							<th>Order Status</th>
 						</tr>
-					</c:forEach>
-				</table>
-				</c:if>
-				<c:if test="${empty order }">
-			        	<tr>
-			        		<td colspan=4 align="center">No order</td>
-			        	</tr>
-		        	</table>
-        		</c:if>
-			</div>
+						<c:forEach items="${order}" var="orders">
+							<% bill++;%>
+							<tr>
+								<td><% out.print(bill);%></td>
+								<td><a href="OrdersController?action=orderdetails&i=<c:out value="${orders.orderID}" />"><c:out value="${orders.orderID}" /></a></td>
+								<td><c:out value="${orders.getOrderDate()}" /></td>
+								
+								<c:if test="${orders.getOrderStatus().equals('1')}">
+								<td><c:out value="Order received" /></td>
+								</c:if>  
+								<c:if test="${orders.getOrderStatus().equals('2')}">
+									<td><c:out value="Order is being prepared" /></td>
+								</c:if>  
+								<c:if test="${orders.getOrderStatus().equals('3')}">
+									<td><c:out value="Order is ready for delivery" /></td>
+								</c:if>
+								<c:if test="${orders.getOrderStatus().equals('4')}">
+									<td><c:out value="Order has been picked up by Rider" /></td>
+								</c:if>
+								<c:if test="${orders.getOrderStatus().equals('5')}">
+									<td><c:out value="Order has been delivered" /></td>
+								</c:if>
+							</tr>
+						</c:forEach>
+					</table>
+				</div>
+				</c:otherwise>
+        	</c:choose>
 		</div>
 	</body>
 </html>

@@ -83,8 +83,9 @@
 		</div>
 <div align="center">
 <br><br><br>
-				<h2>My Cart</h2>	
-				
+		<h2>My Cart</h2>	
+			<c:choose>
+				<c:when test="${items != null}">
 				<div class="cart-table">
 					<table class="address">	
 				    	<tr>
@@ -94,97 +95,56 @@
 				            <th>Price</th>
 				            <th>Total Price</th>
 				            <th>Remove</th>
-				        </tr>
-				        <c:if test="${not empty items }">
-					        <c:set var="totalPrice" value="${0}" />  
-							<c:forEach items="${items}" var="item">
-						        <%bill++; %>
-						        
-								<tr>
-									<td style="width: 20px;"><% out.print(bill); %></td>  
-									<td style="width: 50px;"><c:out value="${item.getName()}"/></td>
-									<td style="width: 20px;">
-										<div class="w3-container">
-											<a href="CartController?action=minus&i=<c:out value="${item.getItemid()}"/>"><button class="button button1" >-</button></a>&nbsp;
-											<c:out value="${item.getQuantity()}"/>
-											<a href="CartController?action=plus&i=<c:out value="${item.getItemid()}"/>"><button class="button button1" >+</button></a> 
-										</div>
-									</td>
-									<td style="width: 50px;">RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.getPrice()}"/></td>
-									<td style="width: 50px;">RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.getPrice()*item.getQuantity()}"/></td>
-									<td style="width: 20px;"><a href="CartController?action=remove&i=<c:out value="${item.getItemid()}"/>"><button class="removebtn" style="border:none">REMOVE</button></a></td>
-								</tr>
-								
-								<c:set var="total" value="${item.getPrice()*item.getQuantity()}"/>
-								<c:set var="totalPrice" value="${totalPrice+total}" />						
-				        	</c:forEach>
-				       
-				        	<tr >
-				        		<th colspan='6'>Grand Total: RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${totalPrice}"/></th>
-				        	</tr>
-				        </table>
+				        </tr>		         
+
+			        <c:set var="totalPrice" value="${0}" />  
+					<c:forEach items="${items}" var="item">
+				    	<%bill++; %>
+						<tr>
+							<td style="width: 20px;"><% out.print(bill); %></td>  
+							<td style="width: 50px;"><c:out value="${item.getName()}"/></td>
+							<td style="width: 20px;">
+								<div class="w3-container">
+									<a href="CartController?action=minus&i=<c:out value="${item.getItemid()}"/>"><button class="button button1" >-</button></a>&nbsp;
+									<c:out value="${item.getQuantity()}"/>
+									<a href="CartController?action=plus&i=<c:out value="${item.getItemid()}"/>"><button class="button button1" >+</button></a> 
+								</div>
+							</td>
+							<td style="width: 50px;">RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.getPrice()}"/></td>
+							<td style="width: 50px;">RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.getPrice()*item.getQuantity()}"/></td>
+							<td style="width: 20px;"><a href="CartController?action=remove&i=<c:out value="${item.getItemid()}"/>"><button class="removebtn" style="border:none">REMOVE</button></a></td>
+						</tr>
+						
+						<c:set var="total" value="${item.getPrice()*item.getQuantity()}"/>
+						<c:set var="totalPrice" value="${totalPrice+total}" />						
+		        	</c:forEach>		       
+		        	<tr >
+		        		<th colspan='6'>Grand Total: RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${totalPrice}"/></th>
+		        	</tr>
+		        </table>
 			        <div class="cart-table"><br>
 			        	<a href="OrdersController?action=createOrder&custID=<%= session.getAttribute("custid") %>&total=${totalPrice}"><button class="primary-btn" style="border:none">Check Out</button></a>
 					</div>
-					</c:if>
-					<c:if test="${empty items }">
-			        	<tr>
-			        		<td colspan=6 align="center">Your cart is empty</td>
-			        	</tr>
-		        	</table>
-        			</c:if>
-				</div>
-		</div>
-<%-- <div align="center">
-		<h1>My Cart</h1>	
-		 
-			<table border=1 class="address">	
-		    	<tr>
-		        	<th>No.</th>
-		            <th>Name</th>
-		            <th>Quantity</th>
-		            <th>Price</th>
-		            <th>Total Price</th>
-		            <th>Remove</th>
-		        </tr>
-        <c:if test="${not empty items }">
-	         <c:set var="totalPrice" value="${0}" />  
-			<c:forEach items="${items}" var="item">
-	        <%bill++; %>
-				<tr>
-					<td style="width: 20px;"><% out.print(bill); %></td>  
-					<td style="width: 50px;"><c:out value="${item.getName()}"/></td>
-					<td style="width: 20px;"><c:out value="${item.getQuantity()}"/><a href="CartController?action=plus&i=<c:out value="${item.getItemid()}"/>">+1</a>&nbsp;<a href="CartController?action=minus&i=<c:out value="${item.getItemid()}"/>">-1</a></td>
-					<td style="width: 50px;">RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.getPrice()}"/></td>
-					<td style="width: 50px;">RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${item.getPrice()*item.getQuantity()}"/></td>
-					<td style="width: 20px;"><a href="CartController?action=remove&i=<c:out value="${item.getItemid()}"/>">X</a></td>
-				</tr>
-				<c:set var="total" value="${item.getPrice()*item.getQuantity()}"/>
-				<c:set var="totalPrice" value="${totalPrice+total}" />						
-	        </c:forEach>	       
-	        	<tr>
-	        		<td></td>
-	        		<td></td>
-	        		<td></td>
-	        		<td></td>
-	        		<td>RM <fmt:formatNumber type="number" maxFractionDigits="2" minFractionDigits="2" value="${totalPrice}"/></td>
-	        		<td></td>
-	        	</tr>
-	        </table>
-	        	 <br>
-	        	 <a href="OrdersController?action=createOrder&custID=<%= session.getAttribute("custid") %>&total=${totalPrice}">Check Out</a>
-        </c:if>
-        <c:if test="${empty items }">
-	        	<tr>
-	        		<td colspan=6 align="center">Your cart is empty</td>
-	        	</tr>
-        	</table>
-        </c:if>
-       
-		<br> <a href="CustomerController?action=viewCustomer&i=<%= session.getAttribute("custid") %>">My Account</a>
-		<br> <a href="ItemController?action=viewItem">View Menu</a>
-		<br> <a href="CustomerController?action=home&i=<%= session.getAttribute("custid") %>">Home</a>
-		<br> <a href="CustomerController?action=logout&i=<%= session.getAttribute("custid") %>">Logout</a>
-	</div> --%>
+			</div>
+			</c:when>
+				<c:otherwise>
+					<div class="cart-table">
+						<table class="address">	
+					    	<tr>
+					        	<th>No.</th>
+					            <th>Name</th>
+					            <th>Quantity</th>
+					            <th>Price</th>
+					            <th>Total Price</th>
+					            <th>Remove</th>
+					        </tr>
+							<tr>
+				        		<td colspan=6 align="center">Your cart is empty</td>
+				        	</tr>
+			        	</table>
+		        	</div>
+				</c:otherwise>
+		</c:choose>
+</div>
 </body>
 </html>
