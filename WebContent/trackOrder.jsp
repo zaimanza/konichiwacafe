@@ -36,7 +36,6 @@
 	        }
 	        th{
 	        font-size:90px;
-	        font-color:red;
 	        }
 	        .button {
 			  background-color: #303030; 
