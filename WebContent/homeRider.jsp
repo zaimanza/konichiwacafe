@@ -2,21 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% String e = (String) request.getAttribute("email"); %>
-<%@ page import= "java.text.Format" %>
-<%@ page import= "java.text.SimpleDateFormat"%>
-<%@ page import= "java.util.Date"%>
+
 <%
 	int bill=0;
 %>
-<% 
-	
 
-	Format dateFormat = new SimpleDateFormat("EEEEE");
-	Format dateFormat2 = new SimpleDateFormat("MMMM dd, yyyy");
-	
-	String day = dateFormat.format(new Date());
-	String date = dateFormat2.format(new Date()); 
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,16 +24,13 @@
           	display: block;
           	margin-left: auto;
           	margin-right: auto;
-          	width: 50%;
+          	width: 85%;
           	padding-bottom:100px;
         }
         .navv{
         	float:right;
         }	
-		table{
-	        width:1000px;
-	        
-	    }
+		
 	    .table th{
 	        font-size:10px;
 	    }
@@ -55,14 +42,12 @@
 				background: #e7ab3c;
 				text-transform: uppercase;
 			}
-			.address1{
-		  right: 100px;
-		  max-width: 1000px;
-		  }
-		  .address2{
-		  right: 100px;
-		  max-width: 1000px;
-		  }
+
+	  .address th,td{
+			padding: 5px;
+			margin-top: 30px;
+		
+		}
   
 	</style>
 <meta charset="ISO-8859-1">
@@ -128,7 +113,7 @@
 	  			<c:set var="orderCheck" value="${ordersReady}"/>
 					<c:choose> 
 						<c:when test="${orderCheck != null}">
-							<table class="address1" style="solid 20px;" >	
+							<table class="address">	
 								<tr>
 			        				<th>Order ID</th>
 			        				<th>DATE</th>
@@ -139,18 +124,22 @@
 			        			</tr>
 					        		<c:forEach items="${ordersReady}" var="order">
 						        		<tr>
-						            		<td style="width: 20px;"><c:out value="${order.orderID}" /></td>        
-						                    <td style="width: 20px;"><c:out value="${order.orderDate}" /></td>  
-						                    <td style="width: 50px;"><c:out value="${order.getDeliveryAddress()}" /></td>  
-						                    <td style="width: 20px;"><c:out value="${order.custID}" /></td>  
-						                   	<td style="width: 20px;"> <c:out value="${order.staffID}" /></td>  
-						                   	<td style="width: 50px;"><a href="OrdersController?action=pickupOrder&orderid=${order.orderID}"><button class="removebtn" style="border:none">Pickup</button></a></td>    
+						            		<td><c:out value="${order.orderID}" /></td>        
+						                    <td><c:out value="${order.orderDate}" /></td>  
+						                    <td><c:out value="${order.getDeliveryAddress()}" /></td>  
+						                    <td><c:out value="${order.custID}" /></td>  
+						                   	<td><c:out value="${order.staffID}" /></td>  
+						                   	<td><a href="OrdersController?action=pickupOrder&orderid=${order.orderID}"><button class="removebtn" style="border:none">Pickup</button></a></td>    
 						          		</tr>
 					      			</c:forEach>
 							</table>	
 						</c:when>
-						<c:otherwise>
-			    			No Orders to Pickup
+						<c:otherwise>			    			
+			    			<table class="address">
+		        			<tr>
+		        				<td colspan=6>No Orders to Pickup</td>
+		        			</tr> 
+						</table>
 			  			</c:otherwise>
 					</c:choose>
 					
@@ -165,7 +154,7 @@
   			<c:set var="orderPick" value="${ordersPickedUp}"/>
 			<c:choose> 
 				<c:when test="${orderPick != null}">
-					<table class="address2">
+					<table class="address">
 	    				<tr>
 	        				<th>Order ID</th>
 	        				<th>DATE</th>
@@ -177,20 +166,24 @@
 	        
 	        			<c:forEach items="${ordersPickedUp}" var="order">
 	        				<tr>
-	            				<td style="width: 20px;"><c:out value="${order.orderID}" /></td>        
-			                    <td style="width: 20px;"><c:out value="${order.orderDate}" /></td>  
-			                    <td style="width: 50px;"><c:out value="${order.getDeliveryAddress()}" /></td>  
-			                    <td style="width: 20px;"><c:out value="${order.custID}" /></td>  
-			                   	<td style="width: 20px;"> <c:out value="${order.staffID}" /></td>  
-	                    		<td style="width: 50px;"><a href="OrdersController?action=deliverOrder&orderid=${order.orderID}"><button class="removebtn" style="border:none">Delivered</button></a></td> 
+	            				<td><c:out value="${order.orderID}" /></td>        
+			                    <td><c:out value="${order.orderDate}" /></td>  
+			                    <td><c:out value="${order.getDeliveryAddress()}" /></td>  
+			                    <td><c:out value="${order.custID}" /></td>  
+			                   	<td><c:out value="${order.staffID}" /></td>  
+	                    		<td><a href="OrdersController?action=deliverOrder&orderid=${order.orderID}"><button class="removebtn" style="border:none">Delivered</button></a></td> 
 	            			</tr>
 	            			
 	        			</c:forEach>
 					</table>
 					
 				</c:when>
-					<c:otherwise>
-		    			No Orders to Deliver
+					<c:otherwise>		    			
+		    			<table class="address">
+		         			<tr>
+		        				<td colspan=6>No Orders to Deliver</td>
+		        			</tr> 
+						</table>
 		  			</c:otherwise>
 		  			
 			</c:choose>
