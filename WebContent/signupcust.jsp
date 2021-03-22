@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,8 +16,27 @@
     <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     
-   	<title>Sign Up| Konichiwa Cafe</title>
+   	<title>Sign Up | Konichiwa Cafe</title>
 </head>
+<style>
+	.alert {
+      opacity: 1;
+      transition: opacity 0.6s;
+      border-radius: 30px;
+    }
+    .alert.error {background-color: #ff4d4d;}
+
+    .closebtn {
+      margin-left: 15px;
+      color: white;
+      font-weight: bold;
+      float: right;
+      font-size: 20px;
+      line-height: 10px;
+      cursor: pointer;
+      transition: 0.3s;      
+    }    
+</style>
 <script>
 function showPassword() {
     var x = document.getElementById("psw");
@@ -76,6 +96,12 @@ function validate(){
                 <div class="col-lg-6 offset-lg-3">
                     <div class="register-form">
                         <h2>Sign Up</h2>
+                        <c:if test="${not empty signuperror}">
+                        <div id="close" class="alert error">
+                			<span class="closebtn" onclick="document.getElementById('close').style.display='none'">&#215;</span>
+                        	<h6 align="center" style="color: white;"><c:out value="${signuperror}"></c:out></h6>
+                        </div>
+                        </c:if> 
                         <form name="registration" action="CustomerController?action=addCustomer" method="post" onsubmit="return validate()">
                             <div class="group-input">
                                 <label for="name">Name *</label>
@@ -88,7 +114,7 @@ function validate(){
                             </div>
                             <div class="group-input">
                                 <label for="phone">Phone No.*</label>
-                                <input type="text" name="phone" placeholder="Phone No."  required>
+                                <input type="tel" name="phone" placeholder="Phone No. (e.g. 0123456789)"  pattern="[0]{1}[0-9]{9,11}" required>
                             </div>
                             <!-- <div class="group-input">
                                 <label for="address">Address *</label>

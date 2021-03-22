@@ -87,10 +87,18 @@ public class CustomerController extends HttpServlet {
 			if(!customer.isValid()) {
 				daoCustomer.add(customer);
 				//daoAddress.firstAddress(address);
-				response.sendRedirect("login.jsp");
+				request.setAttribute("success", "Successfully signed up !! You may login now");
+				forward = "login.jsp";
 			}
 			else
-				response.sendRedirect("signupcust.jsp");
+			{
+				request.setAttribute("signuperror", "This email has been registered");
+				forward = "signupcust.jsp";
+			}
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request,response);
+			
 		}
 		
 		else if(action.equalsIgnoreCase("login")) {
@@ -104,19 +112,27 @@ public class CustomerController extends HttpServlet {
 			customer= daoCustomer.validate(customer);
 			
 			if(customer.isValid()) {
-				HttpSession session = request.getSession();
-				session.setAttribute("custid",customer.getCustid());
-						
-				request.setAttribute("customer", customer);
-				forward = "home.jsp";
+				if(customer.getAvailability().equals("1")) {
+					HttpSession session = request.getSession();
+					session.setAttribute("custid",customer.getCustid());
+							
+					request.setAttribute("customer", customer);
+					forward = "home.jsp";				
+				}
 				
-				RequestDispatcher view = request.getRequestDispatcher(forward);
-				view.forward(request,response);
+				if(customer.getAvailability().equals("2")) {
+					request.setAttribute("loginerror", "Your account has been deleted. Please contact our staff for recovery");
+					forward = "login.jsp";
+				}	
 			}
 			
 			else {
-				response.sendRedirect("login.jsp");
+				request.setAttribute("loginerror", "Invalid email / password");
+				forward = "login.jsp";				
 			}
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request,response);
 		}
 		
 		else if(action.equalsIgnoreCase("updateProfile")) {

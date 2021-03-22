@@ -75,6 +75,8 @@ public class CartController extends HttpServlet {
 						itemQty.set(i, qty);
 				    }
 				}
+				
+				request.setAttribute("mycart", "Yeay, you add some more!");
 				System.out.println("<<<<CART LIST DETAIL AFTER ADD NEW ITEM>>>>");
 				System.out.println("Item ID:  "+cartlist);
 				System.out.println("Item Qty: "+itemQty);
@@ -92,6 +94,7 @@ public class CartController extends HttpServlet {
 				cartlist.add(id);
 				itemQty.add(1);
 				
+				request.setAttribute("mycart", "Item successfully added to Cart");
 				forward = "ItemController?action=viewItem";
 				
 				cartsession.setAttribute("cartlist",cartlist);

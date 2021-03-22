@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	if (session.getAttribute("custid") != null) {
 		response.sendRedirect("CustomerController?action=home&i=" + session.getAttribute("custid"));
@@ -18,8 +19,29 @@
 	<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
-<title>Login| Konichiwa Cafe</title>
+<title>Login | Konichiwa Cafe</title>
 </head>
+<style>
+	.alert {
+      opacity: 1;
+      transition: opacity 0.6s;
+      border-radius: 30px;
+    }
+	
+    .alert.success {background-color: #97BD64;}
+    .alert.error {background-color: #ff4d4d;}
+
+    .closebtn {
+      margin-left: 15px;
+      color: white;
+      font-weight: bold;
+      float: right;
+      font-size: 20px;
+      line-height: 10px;
+      cursor: pointer;
+      transition: 0.3s;      
+    }    
+</style>
 <script type="text/javascript">
 function showPassword() {
     var x = document.getElementById("psw");
@@ -50,6 +72,19 @@ function showPassword() {
                 <div class="col-lg-6 offset-lg-3">
                     <div class="login-form">
                         <h2>Login</h2>
+                          
+	                        <c:if test="${not empty loginerror}">
+	                        <div id="close" class="alert error">
+                			<span class="closebtn" onclick="document.getElementById('close').style.display='none'">&#215;</span>
+	                        	<h6 align="center" style="color: white"><c:out value="${loginerror}"></c:out></h6>
+	                        </div>
+	                        </c:if> 
+	                        <c:if test="${not empty success}">
+	                        <div id="close" class="alert success">
+                			<span class="closebtn" onclick="document.getElementById('close').style.display='none'">&#215;</span>
+	                        	<h6 align="center" style="color: white"><c:out value="${success}"></c:out></h6>
+	                        	</div>
+	                        </c:if>                      
                         <form action="CustomerController?action=login" method="post">
                             <div class="group-input">
                                 <label for="email">Email *</label>
