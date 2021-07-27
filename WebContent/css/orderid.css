@@ -1,0 +1,50 @@
+@charset "ISO-8859-1";
+
+.orderid,.orderid:focus{
+	color: #e7ab3c;
+}
+
+.orderid:hover {
+	color: #9f6e14;
+}
+
+.updatebtn, .updatebtn:focus {
+	border:none;
+	font-size: 14px;
+	font-weight: 500;
+	color:#ffff;
+	background-color: #e7ab3c;
+	text-transform: uppercase;
+}
+.updatebtn:hover {
+	background-color: #9f6e14;
+}
+
+.deletebtn, deletebtn:focus {
+	border:none;
+	font-size: 14px;
+	font-weight: 500;
+	color:#ffff;
+	background-color: red;
+	text-transform: uppercase;
+}
+.deletebtn:hover {
+	background-color: #cc0000;
+}
+
+.removebtn 
+	{
+		border:none;
+		font-size: 14px;
+		font-weight: 500;
+		color: #ffffff;
+		background: #e7ab3c;
+		text-transform: uppercase;
+	}
+.group-input textarea, .group-input select, .group-input option {
+		border: 1px solid #ebebeb;
+		height: 50px;
+		width: 100%;
+		padding-left: 20px;
+		padding-right: 15px;
+	} 
