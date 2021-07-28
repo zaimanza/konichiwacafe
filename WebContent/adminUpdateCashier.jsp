@@ -161,31 +161,43 @@
 			<div class="row">
 				<div class="col-lg-6 offset-lg-3">
 					<div class="register-form">
-					<form name="updateForm" action="StaffController?action=adminUpdatingStaff" method="post" onsubmit="return validate()">
-						<input type='hidden' name='staffId' id="staffId" value="<c:out value="${staff.getStaffId()}" />">
-						<div class="group-input">
-							<label for="fname">First Name : </label>
-							<input type='text' name='staffFName'  pattern= "[A-Za-z ]+" value="<c:out value="${staff.getStaffFName()}" />"required>
-						</div>
-						<div class="group-input">
-							<label for="lname">Last Name : </label>
-							<input type='text' name='staffLName' pattern= "[A-Za-z ]+" value="<c:out value="${staff.getStaffLName()}" />"required>
-						</div>
-						<div class="group-input">
-							<label for="email">Email : </label>
-							<input type='text' name='staffEmail' value="<c:out value="${staff.getStaffEmail()}"/>" readonly>
-						</div>
-						<input type='hidden' name='staffPassword' value="<c:out value="${staff.getStaffPassword()}" />">
-						<input type='hidden' name='staffType' value="<c:out value="${staff.getStaffType()}" />">
-						
-						<div class="group-input">
-							<label for="phone">Phone No. : </label>
-							<input type='tel' name='staffPhone' value="<c:out value="${staff.getStaffPhone()}"/>" pattern="[0]{1}[0-9]{9,11}" required>
-						</div>
-						
-						<br>
-						<button type="submit" class="btnenable primary-btn">Update</button>	
-						</form>
+						<form name="updateForm" action="StaffController?action=adminUpdatingStaff" method="post" onsubmit="return validate()">
+							<input type='hidden' name='staffId' id="staffId" value="<c:out value="${staff.getStaffId()}" />">
+							<div class="group-input">
+								<label for="fname">First Name : </label>
+								<input type='text' name='staffFName'  pattern= "[A-Za-z @/]+" 
+								title="Name can only contain letters, @, / or spaces." value="<c:out value="${staff.getStaffFName()}" />"required>
+							</div>
+							<div class="group-input">
+								<label for="lname">Last Name : </label>
+								<input type='text' name='staffLName' pattern= "[A-Za-z @/]+" 
+								title="Name can only contain letters, @, / or spaces." value="<c:out value="${staff.getStaffLName()}" />"required>
+							</div>
+							<div class="group-input">
+								<label for="email">Email : </label>
+								<input type='text' name='staffEmail' value="<c:out value="${staff.getStaffEmail()}"/>" readonly>
+							</div>
+							<input type='hidden' name='staffPassword' value="<c:out value="${staff.getStaffPassword()}" />">
+							
+							
+							<div class="group-input">
+								<label for="phone">Phone No. : </label>
+								<input type='tel' name='staffPhone' value="<c:out value="${staff.getStaffPhone()}"/>" pattern="[0]{1}[0-9]{9,11}" 
+								title="Please exclude '-' or any special charaters. e.g. 0123456789" required>
+							</div>
+							
+							<div class="group-input">
+								<label for="verification">Verify Status : </label>
+								<select name='staffType'>
+									<option value="0" <c:if test = "${staff.getStaffType() == 0}"> selected </c:if>>Not Verified</option>
+									<option value="1" <c:if test = "${staff.getStaffType() == 1}"> selected </c:if>>Verified </option>
+								</select> 
+								
+							</div>
+							
+							<br>
+							<button type="submit" class="btnenable primary-btn">Update</button>	
+							</form>
 						<a href="#" onclick="viewCashier()"><button class="primary-btn" style="border:none; float:right;">Back</button></a>
 						</div>								
 				</div>				
