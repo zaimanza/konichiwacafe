@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import konichiwa.dao.ItemDAO;
@@ -25,7 +26,8 @@ import konichiwa.model.Item_Category;
 
 public class ItemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;	
-	
+	static ArrayList<Integer> cartlist = new ArrayList<>();
+	static ArrayList<Integer> itemQty = new ArrayList<>();
 	String forward="";
 	private ItemDAO daoItem;
        
@@ -44,23 +46,41 @@ public class ItemController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		Item item = new Item();
-		
+		HttpSession cartsession = request.getSession();
 		if(action.equalsIgnoreCase("viewItem")) { //Customer view item list
 			
 			  List<Item> items = new ArrayList<Item>(); items = daoItem.getAllItem();
 			  item.setItems(items);
-			  
+			    
 			  Item_Category itemcategory = new Item_Category(); List<Item_Category>
 			  itemcategorylist = new ArrayList<Item_Category>(); itemcategorylist =
 			  daoItem.getAllItemCategory(); itemcategory.setItemcategory(itemcategorylist);
 			  
-			  forward = "viewItem.jsp"; request.setAttribute("item", item.getItems());
+			  request.setAttribute("item", item.getItems());
 			  request.setAttribute("category", itemcategory.getItemcategory());
+			    
+			  cartlist=(ArrayList<Integer>)cartsession.getAttribute("cartlist");
+			  itemQty = (ArrayList<Integer>)cartsession.getAttribute("itemQty");
 			
+			  double totalPriceItems = 0.0;
+			  int CartQty = 0;
+				
+			  if(cartlist!= null) {
+					for(int i=0; i<cartlist.size(); i++) {
+						Item tempItem = new Item();
+						tempItem = daoItem.getItemById(cartlist.get(i),itemQty.get(i));
+						totalPriceItems = totalPriceItems +  ( tempItem.getPrice() * tempItem.getQuantity() );
+						CartQty = CartQty + tempItem.getQuantity();
+					}
+				
+			  }
+			  request.setAttribute("totalPriceItems", totalPriceItems);
+			  request.setAttribute("CartQty", CartQty);
+			  forward = "../ActorCustomer/viewItem.jsp"; 
 		}
 		
 		if(action.equalsIgnoreCase("addItem")) {
-			forward = "adminAddItem.jsp";
+			forward = "../ActorAdmin/adminAddItem.jsp";
 		}
 		
 		if(action.equalsIgnoreCase("adminViewItem")) {
@@ -69,7 +89,7 @@ public class ItemController extends HttpServlet {
 			item.setItems(items);
 			
 			request.setAttribute("item", item.getItems());
-			forward = "adminViewItem.jsp";
+			forward = "../ActorAdmin/adminViewItem.jsp";
 		}
 				
 		if(action.equalsIgnoreCase("edit")) {
@@ -78,7 +98,7 @@ public class ItemController extends HttpServlet {
 			item = daoItem.getItemForUpdate(itemid);
 
 			request.setAttribute("item", item);   		
-    		forward = "adminUpdateItem.jsp";		    		    		
+    		forward = "../ActorAdmin/adminUpdateItem.jsp";		    		    		
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -125,7 +145,7 @@ public class ItemController extends HttpServlet {
 				
 				request.setAttribute("item", item.getItems());
 				request.setAttribute("added", "Item successfully added!");
-				forward = "adminViewItem.jsp";
+				forward = "../ActorAdmin/adminViewItem.jsp";
 			}
 			
 			if(item.isValid()) {
@@ -135,7 +155,7 @@ public class ItemController extends HttpServlet {
 				
 				request.setAttribute("item", item.getItems());
 				request.setAttribute("failed", "Oops, the item is already in the list!");
-				forward = "adminViewItem.jsp";
+				forward = "../ActorAdmin/adminViewItem.jsp";
 			}
 		}
 		
@@ -167,7 +187,7 @@ public class ItemController extends HttpServlet {
 			item.setItems(items);
 			
 			request.setAttribute("item", item.getItems());			
-			forward = "adminViewItem.jsp";
+			forward = "../ActorAdmin/adminViewItem.jsp";
 		}
 		
 		if(action.equalsIgnoreCase("deleteItem")) {
@@ -185,7 +205,7 @@ public class ItemController extends HttpServlet {
             request.setAttribute("deleted", "Item successfully deleted!");
             request.setAttribute("item",item.getItems());
 
-            forward = "adminViewItem.jsp";
+            forward = "../ActorAdmin/adminViewItem.jsp";
           }
 		
 		if(action.equalsIgnoreCase("itemByCategory")) { //Customer view item list by category
@@ -202,7 +222,7 @@ public class ItemController extends HttpServlet {
 			itemcategorylist = daoItem.getAllItemCategory();
 			itemcategory.setItemcategory(itemcategorylist);
 			
-			forward = "viewItem.jsp";
+			forward = "../ActorCustomer/viewItem.jsp";
 			request.setAttribute("item", item.getItems());
 			request.setAttribute("category", itemcategory.getItemcategory());
 			request.setAttribute("selectedModule", request.getParameter("itemcategoryid"));

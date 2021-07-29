@@ -30,7 +30,7 @@
 								1st Japanese Muslim Restaurant<br> in Malaysia
 							</p>
 							<a href="signupcust.jsp" class="primary-btn">New Customer?</a> <a
-								href="login.jsp" class="primary-btn">Login</a>
+								href="ActorCustomer/login.jsp" class="primary-btn">Login</a>
 						</div>
 					</div>
 				</div>

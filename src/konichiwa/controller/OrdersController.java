@@ -26,6 +26,7 @@ import konichiwa.model.OrderList;
 import konichiwa.model.Order_Details;
 import konichiwa.model.Orders;
 import konichiwa.model.Payment;
+import konichiwa.model.Rider;
 /**
  * Servlet implementation class OrdersController
  */
@@ -90,7 +91,7 @@ public class OrdersController extends HttpServlet {
 				});
 			}
 			request.setAttribute("email",email);
-			forward = "riderHome.jsp";	
+			forward = "../ActorRider/riderHome.jsp";	
 			if(!ordersReady.isEmpty()) {
 		        request.setAttribute("ordersReady", ordersReady);
 			}
@@ -120,7 +121,7 @@ public class OrdersController extends HttpServlet {
 					}
 				});
 			}
-			forward = "riderHome.jsp";	
+			forward = "../ActorRider/riderHome.jsp";	
 			if(!ordersReady.isEmpty()) {
 		        request.setAttribute("ordersReady", ordersReady);
 			}
@@ -147,7 +148,7 @@ public class OrdersController extends HttpServlet {
 					}
 				});
 			}
-			forward = "riderHome.jsp";	
+			forward = "../ActorRider/riderHome.jsp";	
 			if(!ordersReady.isEmpty()) {
 		        request.setAttribute("ordersReady", ordersReady);
 			}
@@ -168,7 +169,7 @@ public class OrdersController extends HttpServlet {
 		        request.setAttribute("listPrepare", listPrepare);
 			}
 			
-			forward ="cashierPrepareOrder.jsp";
+			forward ="../ActorCashier/cashierPrepareOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("adminOrderPrepare")) {
@@ -182,7 +183,7 @@ public class OrdersController extends HttpServlet {
 		        request.setAttribute("listPrepare", listPrepare);
 			}
 			
-			forward ="adminPrepareOrder.jsp";
+			forward ="../ActorAdmin/adminPrepareOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("cashierUpdateOrderRider")) {
@@ -198,7 +199,7 @@ public class OrdersController extends HttpServlet {
 		        request.setAttribute("listNew", listNew);
 			}
 			
-			forward ="cashierNewOrder.jsp";
+			forward ="../ActorCashier/cashierNewOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("adminUpdateOrderRider")) {
@@ -215,7 +216,7 @@ public class OrdersController extends HttpServlet {
 		        request.setAttribute("listNew", listNew);
 			}
 			
-			forward ="adminNewOrder.jsp";
+			forward ="../ActorAdmin/adminNewOrder.jsp";
 		}
 		
 else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
@@ -226,7 +227,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listNew", listNew);
 			}
 			
-			forward ="cashierNewOrder.jsp";
+			forward ="../ActorCashier/cashierNewOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("cashierViewPrepareOrder")) {
@@ -237,7 +238,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listPrepare", listPrepare);
 			}
 			
-			forward ="cashierPrepareOrder.jsp";
+			forward ="../ActorCashier/cashierPrepareOrder.jsp";
 		}
 		
 
@@ -250,7 +251,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listTrack", listTrack);
 			}
 			
-			forward ="cashierTrackOrder.jsp";
+			forward ="../ActorCashier/cashierTrackOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("adminViewNewOrder")) {
@@ -261,7 +262,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listNew", listNew);
 			}
 			
-			forward ="adminNewOrder.jsp";
+			forward ="../ActorAdmin/adminNewOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("adminViewPrepareOrder")) {
@@ -272,7 +273,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listPrepare", listPrepare);
 			}
 			
-			forward ="adminPrepareOrder.jsp";
+			forward ="../ActorAdmin/adminPrepareOrder.jsp";
 		}
 		
 
@@ -285,21 +286,28 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listTrack", listTrack);
 			}
 			
-			forward ="adminTrackOrder.jsp";
+			forward ="../ActorAdmin/adminTrackOrder.jsp";
 		}
 		
 		//rider
 		else if(action.equalsIgnoreCase("riderorderdetails")) {
 			int id = Integer.parseInt(request.getParameter("i"));
+			
 			Order_Details orderDetails = new Order_Details();
 			
 			List<Order_Details> ordered = new ArrayList<Order_Details>();
 			ordered = daoOrder_Details.getOrderDetails(id);
 			orderDetails.setItemOrdered(ordered);
 			
+			int custid= Integer.parseInt(request.getParameter("custId"));
+	    	
+	    	Customer customer = new Customer();
+	    	customer = daoCustomer.getCustomerById(custid); 
+			request.setAttribute("customer", customer);
 			
-			forward ="riderOrderDetails.jsp";
+			forward ="../ActorRider/riderOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
+			
 		}
 		
 		//aiman habis
@@ -317,7 +325,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
         	System.out.println("Total Price: ");
     		request.setAttribute("cust",customer.getCustomerAddresses());
     		request.setAttribute("totalPrice",totalPrice);
-    		forward = "createOrder.jsp";
+    		forward = "../ActorCustomer/createOrder.jsp";
 		}
 		else if(action.equalsIgnoreCase("trackOrder")) {
 			Customer customer = new Customer();
@@ -327,7 +335,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			orderz = daoOrders.getAllOrderz(id);
 			customer.setCustomerOrderz(orderz);
 			
-			forward = "trackOrder.jsp";
+			forward = "../ActorCustomer/trackOrder.jsp";
 			request.setAttribute("order", customer.getCustomerOrderz());
 		}
 		
@@ -344,9 +352,16 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="orderDetails.jsp";
+			forward ="../ActorCustomer/orderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
+			
+			int RiderId = Integer.parseInt(request.getParameter("RiderId"));
+			
+			Rider rider = new Rider();
+        	rider = daoRider.getRiderById(RiderId);      
+
+            request.setAttribute("rider", rider); 
 		}
 		
 		else if(action.equalsIgnoreCase("adminNewOrderdetails")) {
@@ -360,7 +375,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="adminNewOrderDetails.jsp";
+			forward ="../ActorAdmin/adminNewOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
 		}
@@ -375,7 +390,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="adminPrepareOrderDetails.jsp";
+			forward ="../ActorAdmin/adminPrepareOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
 		}
@@ -390,7 +405,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="adminTrackOrderDetails.jsp";
+			forward ="../ActorAdmin/adminTrackOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
 		}
@@ -406,7 +421,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="adminViewReportOrderDetails.jsp";
+			forward ="../ActorAdmin/adminViewReportOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
 		}
@@ -423,7 +438,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="cashierNewOrderDetails.jsp";
+			forward ="../ActorCashier/cashierNewOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
 		}
@@ -438,7 +453,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="cashierPrepareOrderDetails.jsp";
+			forward ="../ActorCashier/cashierPrepareOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
 		}
@@ -453,7 +468,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="cashierTrackOrderDetails.jsp";
+			forward ="../ActorCashier/cashierTrackOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
 		}
@@ -541,8 +556,8 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			}
 			
-			forward = "orderList.jsp";
-			//if not successful > back to createOrder.jsp
+			forward = "../ActorCustomer/orderList.jsp";
+			//if not successful > back to ../ActorCustomer/createOrder.jsp
 		}//sarah habis
 		
 		

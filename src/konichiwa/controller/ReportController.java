@@ -51,7 +51,7 @@ public class ReportController extends HttpServlet {
 			
 			Double total = daoPayment.getAllTotalPrice();
 			request.setAttribute("allTotalPrice", total);
-			forward="adminViewReport.jsp";
+			forward="../ActorAdmin/adminViewReport.jsp";
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);

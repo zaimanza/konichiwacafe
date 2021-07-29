@@ -66,7 +66,7 @@ public class RiderController extends HttpServlet {
         	rider = daoRider.getRiderById(id);
 
 	    	System.out.println("to update Rider ID :"+id);
-        	forward = "riderUpdateProfile.jsp";
+        	forward = "../ActorRider/riderUpdateProfile.jsp";
             request.setAttribute("rider", rider); 
 		}
 		
@@ -76,7 +76,7 @@ public class RiderController extends HttpServlet {
         	Rider rider = new Rider();
         	rider = daoRider.getRiderById(id);
         	        	
-        	forward = "riderUpdateAvailable.jsp";
+        	forward = "../ActorRider/riderUpdateAvailable.jsp";
             request.setAttribute("rider", rider); 
 		}
 		
@@ -85,27 +85,27 @@ public class RiderController extends HttpServlet {
 
         	Rider rider = new Rider();
         	rider = daoRider.getRiderByEmail(email);     
-        	forward = "riderProfile.jsp";     
+        	forward = "../ActorRider/riderProfile.jsp";     
 
             request.setAttribute("rider", rider); 
 		}
 		
 		//staff
 		else if (action.equalsIgnoreCase("cashierViewAvailableRiders")) {
-			forward = "cashierAvailableRider.jsp";
+			forward = "../ActorCashier/cashierAvailableRider.jsp";
 			request.setAttribute("riders", daoRider.getAvailableRider());
 			request.setAttribute("orderid", request.getParameter("orderid"));
 		}
 		
 		else if (action.equalsIgnoreCase("adminViewAvailableRiders")) {
-			forward = "adminAvailableRider.jsp";
+			forward = "../ActorAdmin/adminAvailableRider.jsp";
 			request.setAttribute("riders", daoRider.getAvailableRider());
 			request.setAttribute("orderid", request.getParameter("orderid"));
 		}
 		
 		else if(action.equalsIgnoreCase("adminViewAllRider")) {
 			request.setAttribute("riderlist", daoRider.getAllRider());
-            forward = "adminViewRider.jsp";
+            forward = "../ActorAdmin/adminViewRider.jsp";
 		}
 		
 		else if (action.equalsIgnoreCase("adminDeleteRider")) {			
@@ -114,7 +114,7 @@ public class RiderController extends HttpServlet {
 		
 			request.setAttribute("deleted", "Successfully deleted!");
 			request.setAttribute("riderlist", daoRider.getAllRider());
-            forward = "adminViewRider.jsp";
+            forward = "../ActorAdmin/adminViewRider.jsp";
 		}
 		
 		else if (action.equalsIgnoreCase("adminVerifyRider")) {			
@@ -122,7 +122,7 @@ public class RiderController extends HttpServlet {
 			daoRider.verifyRider(id);
 		
 			request.setAttribute("riderlist", daoRider.getAllRider());
-            forward = "adminViewRider.jsp";
+            forward = "../ActorAdmin/adminViewRider.jsp";
 		}
 		
 		else if (action.equalsIgnoreCase("adminUnVerifyRider")) {			
@@ -130,7 +130,7 @@ public class RiderController extends HttpServlet {
 			daoRider.unVerifyRider(id);
 		
 			request.setAttribute("riderlist", daoRider.getAllRider());
-            forward = "adminViewRider.jsp";
+            forward = "../ActorAdmin/adminViewRider.jsp";
 		}
 		
 		else if (action.equalsIgnoreCase("adminUpdateRider")) {
@@ -139,7 +139,7 @@ public class RiderController extends HttpServlet {
         	Rider rider = new Rider();
         	rider = daoRider.getRiderById(id);
         	
-        	forward = "adminUpdateRider.jsp";
+        	forward = "../ActorAdmin/adminUpdateRider.jsp";
             request.setAttribute("rider", rider); 
 		}
 		
@@ -178,7 +178,7 @@ public class RiderController extends HttpServlet {
 				request.setAttribute("outdated", "Rider failed to update!");
 			
            	request.setAttribute("riderlist", daoRider.getAllRider());
-        	forward = "adminViewRider.jsp";
+        	forward = "../ActorAdmin/adminViewRider.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("addORupdate")) {
@@ -186,13 +186,13 @@ public class RiderController extends HttpServlet {
 				System.out.println("adding");
 				daoRider.add(rider);
 	        	
-	        	forward ="loginRider.jsp";
+	        	forward ="../ActorRider/loginRider.jsp";
 	        } else {
 	        	System.out.println("rider already exist");
 	        	
                 if(riderId==0) {
 					request.setAttribute("wrongPass", "This email has been registered");														
-                	forward ="registerRider.jsp";
+                	forward ="../ActorRider/registerRider.jsp";
                 	
                 }
                 
@@ -203,7 +203,7 @@ public class RiderController extends HttpServlet {
                 	rider = daoRider.getRiderById(rider.getRiderId());
 
                 	request.setAttribute("rider", rider);
-                	forward = "riderProfile.jsp";
+                	forward = "../ActorRider/riderProfile.jsp";
                 }
 	        }
 		} 
@@ -212,14 +212,14 @@ public class RiderController extends HttpServlet {
 			if(!rider.isValid()) {
 				System.out.println("Rider does not exist");
 				request.setAttribute("wrongPass", "Unregistered Rider");
-				forward = "loginRider.jsp";
+				forward = "../ActorRider/loginRider.jsp";
 	        } else {
 	        	System.out.println("Rider able to login");
 	        	rider = daoRider.getRiderByEmail(rider.getEmail());
 	        	System.out.println("Rider status: "+rider.getStat());
 	        	if( rider.getStat() == 1 || rider.getStat() == 0 ) {
 	        		request.setAttribute("wrongPass", "Rider is not verified");
-		        	forward = "loginRider.jsp";
+		        	forward = "../ActorRider/loginRider.jsp";
 	        	} else {
 	        		if(rider.getPass().equals(pass)) {
 		        		System.out.println("Rider successfully logged in");
@@ -249,11 +249,11 @@ public class RiderController extends HttpServlet {
 					        request.setAttribute("ordersPickedUp", ordersPickedUp);
 						}
 			        	
-			        	forward = "riderHome.jsp";
+			        	forward = "../ActorRider/riderHome.jsp";
 		        	} else {
 		        		System.out.println("Wrong password");
 		        		request.setAttribute("wrongPass", "Incorrect Email or Password");
-			        	forward = "loginRider.jsp";
+			        	forward = "../ActorRider/loginRider.jsp";
 		        	}
 	        	}
 	        }
@@ -267,7 +267,7 @@ public class RiderController extends HttpServlet {
                 rider = daoRider.updateAvailability(rider);
                 
             	rider = daoRider.getRiderByEmail(rider.getEmail());     
-            	forward = "riderProfile.jsp";     
+            	forward = "../ActorRider/riderProfile.jsp";     
 
                 request.setAttribute("rider", rider); 
             }

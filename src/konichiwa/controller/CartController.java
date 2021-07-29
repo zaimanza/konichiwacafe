@@ -114,13 +114,24 @@ public class CartController extends HttpServlet {
 			itemQty = (ArrayList<Integer>)cartsession.getAttribute("itemQty");
 			//call DAO
 			ArrayList<Item> listitemtwo= new ArrayList<Item>();
+			
+			double totalPriceItems = 0.0;
+			int CartQty = 0;
+			
 			if(cartlist!= null) {
 				for(int i=0; i<cartlist.size(); i++) {
-					listitemtwo.add(daoItem.getItemById(cartlist.get(i),itemQty.get(i)));
+					Item tempItem = new Item();
+					tempItem = daoItem.getItemById(cartlist.get(i),itemQty.get(i));
+					listitemtwo.add(tempItem);
+					totalPriceItems = totalPriceItems +  ( tempItem.getPrice() * tempItem.getQuantity() );
+					CartQty = CartQty + tempItem.getQuantity();
 				}
+			
 			request.setAttribute("items", listitemtwo);
 			}
-			forward="cart.jsp";
+			request.setAttribute("totalPriceItems", totalPriceItems);
+			request.setAttribute("CartQty", CartQty);
+			forward="../ActorCustomer/cart.jsp";
 			
 		}
 		/*adib habis*/

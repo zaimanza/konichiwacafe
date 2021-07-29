@@ -20,7 +20,7 @@ public class StaffController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private StaffDAO daoStaff;
 	
-	private static String ADD_STAFF = "registerStaff.jsp";
+	private static String ADD_STAFF = "../ActorAdmin/registerStaff.jsp";
 	
 	String forward="";
     /**
@@ -42,31 +42,31 @@ public class StaffController extends HttpServlet {
 			Staff staff = daoStaff.getStaffById(staffid);
 			request.setAttribute("staff", staff);
 			if(staff.getStaffType() == 2) //master admin
-				forward = "adminViewProfile.jsp";
+				forward = "../ActorAdmin/adminViewProfile.jsp";
 			else if(staff.getStaffType() == 1) //cashier 
-				forward = "cashierViewProfile.jsp";
+				forward = "../ActorCashier/cashierViewProfile.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("updateProfile")) {
 			Staff staff = daoStaff.getStaffById(staffid);
 			request.setAttribute("staff", staff);
 			if(staff.getStaffType() == 2) //master admin
-				forward = "adminUpdateProfile.jsp";
+				forward = "../ActorAdmin/adminUpdateProfile.jsp";
 			else if(staff.getStaffType() == 1) //cashier 
-				forward = "cashierUpdateProfile.jsp";
+				forward = "../ActorCashier/cashierUpdateProfile.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("home")) {
 			Staff staff = daoStaff.getStaffById(staffid);
 						
 			if (staff.getStaffType() == 1) { //cashier 
-				forward = "cashierHome.jsp";
+				forward = "../ActorCashier/cashierHome.jsp";
 				request.setAttribute("cashier", staff);
 				request.setAttribute("cashierId", staff.getStaffId());
 			}
 
 			else if (staff.getStaffType() == 2) { //master admin
-				forward = "adminHome.jsp";						
+				forward = "../ActorAdmin/adminHome.jsp";						
 				request.setAttribute("admin", staff);
 				request.setAttribute("adminId", staff.getStaffId());
 			}
@@ -74,7 +74,7 @@ public class StaffController extends HttpServlet {
 		
 		else if(action.equalsIgnoreCase("adminViewAllCashier")) {
 			request.setAttribute("cashierlist", daoStaff.getAllCashier());
-            forward = "adminViewCashier.jsp";
+            forward = "../ActorAdmin/adminViewCashier.jsp";
 		}
 		
 		else if (action.equalsIgnoreCase("adminDeleteCashier")) {
@@ -85,7 +85,7 @@ public class StaffController extends HttpServlet {
 			request.setAttribute("deleted", "Successfully deleted!");
 			
 			request.setAttribute("cashierlist", daoStaff.getAllCashier());
-            forward = "adminViewCashier.jsp";
+            forward = "../ActorAdmin/adminViewCashier.jsp";
 		}
 		
 		else if (action.equalsIgnoreCase("adminVerifyCashier")) { 
@@ -95,7 +95,7 @@ public class StaffController extends HttpServlet {
 			daoStaff.verifyStaff(id);
 		
 			request.setAttribute("cashierlist", daoStaff.getAllCashier());
-            forward = "adminViewCashier.jsp";
+            forward = "../ActorAdmin/adminViewCashier.jsp";
 		}
 		
 		else if (action.equalsIgnoreCase("adminUnVerifyCashier")) {
@@ -105,14 +105,14 @@ public class StaffController extends HttpServlet {
 			daoStaff.unVerifyStaff(id);
 		
 			request.setAttribute("cashierlist", daoStaff.getAllCashier());
-            forward = "adminViewCashier.jsp";
+            forward = "../ActorAdmin/adminViewCashier.jsp";
 		}
 		
 		else if (action.equalsIgnoreCase("adminUpdateCashier")) {
 			 int id = Integer.parseInt(request.getParameter("id"));
 			 Staff staff = new Staff(); 
 			 staff = daoStaff.getStaffById(id);
-			 forward = "adminUpdateCashier.jsp"; 
+			 forward = "../ActorAdmin/adminUpdateCashier.jsp"; 
 			 request.setAttribute("staff", staff); 
 			 
 		}
@@ -167,7 +167,7 @@ public class StaffController extends HttpServlet {
 				System.out.println("Adding . . ."+ staff.getStaffEmail());
 				daoStaff.add(staff);
 				request.setAttribute("loginerror", "Successfuly registered");
-				response.sendRedirect("loginStaff.jsp");
+				response.sendRedirect("../ActorAdmin/loginStaff.jsp");
 			}
 
 			else {
@@ -183,7 +183,7 @@ public class StaffController extends HttpServlet {
 			if (!staff.isValid()) {
 				System.out.println("Staff does not exist");
 				request.setAttribute("loginerror", "Unregistered Staff");
-				forward = "loginStaff.jsp";
+				forward = "../ActorAdmin/loginStaff.jsp";
 			} 
 			else { // if staff exist
 							
@@ -195,19 +195,19 @@ public class StaffController extends HttpServlet {
 					request.setAttribute("staffName", staff.getStaffFName()+" "+staff.getStaffLName());
 					
 					if (staff.getStaffType() == 1) { //cashier 
-						forward = "cashierHome.jsp";
+						forward = "../ActorCashier/cashierHome.jsp";
 						request.setAttribute("cashier", staff);
 						request.setAttribute("cashierId", staff.getStaffId());
 					}
 
 					else if (staff.getStaffType() == 2) { //master admin
-						forward = "adminHome.jsp";						
+						forward = "../ActorAdmin/adminHome.jsp";						
 						request.setAttribute("admin", staff);
 						request.setAttribute("adminId", staff.getStaffId());
 					}
 					
 					else if(staff.getStaffType() == 0) { //invalid staff @ account has been deactivate
-						forward = "loginStaff.jsp";
+						forward = "../ActorAdmin/loginStaff.jsp";
 						System.out.println("Invalid staff");
 						request.setAttribute("loginerror", "Please wait for validation");
 					}
@@ -217,7 +217,7 @@ public class StaffController extends HttpServlet {
 				else {
 					System.out.println("Wrong password");
 					request.setAttribute("loginerror", "Incorrect Password");
-					forward = "loginStaff.jsp";
+					forward = "../ActorAdmin/loginStaff.jsp";
 				}							
 			}
 			
@@ -234,18 +234,18 @@ public class StaffController extends HttpServlet {
 				request.setAttribute("updated", "Successfully updated!");
 				
 				if(staff.getStaffType() == 2) //master admin
-					forward = "adminViewProfile.jsp";
+					forward = "../ActorAdmin/adminViewProfile.jsp";
 				else if(staff.getStaffType() == 1) //cashier 
-					forward = "cashierViewProfile.jsp";
+					forward = "../ActorCashier/cashierViewProfile.jsp";
 			}
 			
 			if(!staff.isValid()) {
 				request.setAttribute("outdated", "Failed to update!");
 				
 				if(staff.getStaffType() == 2) //master admin
-					forward = "adminViewProfile.jsp";
+					forward = "../ActorAdmin/adminViewProfile.jsp";
 				else if(staff.getStaffType() == 1) //cashier 
-					forward = "cashierViewProfile.jsp";
+					forward = "../ActorCashier/cashierViewProfile.jsp";
 			}
 			
 	
@@ -258,7 +258,7 @@ public class StaffController extends HttpServlet {
 			daoStaff.getStaffById(staff.getStaffId());
 			
 			request.setAttribute("cashierlist", daoStaff.getAllCashier()); 
-			forward = "adminViewCashier.jsp"; 
+			forward = "../ActorAdmin/adminViewCashier.jsp"; 
 			
 			if(staff.isValid()) {
 				request.setAttribute("updated", "Successfully updated!");				
