@@ -161,11 +161,7 @@
 			<div class="row">
 				<div class="col-lg-6 offset-lg-3">
 					<div class="register-form">
-<<<<<<< HEAD:WebContent/ActorAdmin/adminUpdateCashier.jsp
 					<form name="updateForm" action="StaffController?action=adminUpdatingStaff" method="post" onsubmit="return validate()">
-=======
-						<form name="updateForm" action="StaffController?action=adminUpdatingStaff" method="post" onsubmit="return validate()">
->>>>>>> 4f2c96ca0ed68185d8abbdf616e7bac64e0efa4a:WebContent/adminUpdateCashier.jsp
 							<input type='hidden' name='staffId' id="staffId" value="<c:out value="${staff.getStaffId()}" />">
 							<div class="group-input">
 								<label for="fname">First Name : </label>
@@ -182,38 +178,23 @@
 								<input type='text' name='staffEmail' value="<c:out value="${staff.getStaffEmail()}"/>" readonly>
 							</div>
 							<input type='hidden' name='staffPassword' value="<c:out value="${staff.getStaffPassword()}" />">
-<<<<<<< HEAD:WebContent/ActorAdmin/adminUpdateCashier.jsp
 
 
-=======
-							
-							
->>>>>>> 4f2c96ca0ed68185d8abbdf616e7bac64e0efa4a:WebContent/adminUpdateCashier.jsp
 							<div class="group-input">
 								<label for="phone">Phone No. : </label>
 								<input type='tel' name='staffPhone' value="<c:out value="${staff.getStaffPhone()}"/>" pattern="[0]{1}[0-9]{9,11}" 
 								title="Please exclude '-' or any special charaters. e.g. 0123456789" required>
 							</div>
-<<<<<<< HEAD:WebContent/ActorAdmin/adminUpdateCashier.jsp
 
-=======
-							
->>>>>>> 4f2c96ca0ed68185d8abbdf616e7bac64e0efa4a:WebContent/adminUpdateCashier.jsp
 							<div class="group-input">
 								<label for="verification">Verify Status : </label>
 								<select name='staffType'>
 									<option value="0" <c:if test = "${staff.getStaffType() == 0}"> selected </c:if>>Not Verified</option>
 									<option value="1" <c:if test = "${staff.getStaffType() == 1}"> selected </c:if>>Verified </option>
 								</select> 
-<<<<<<< HEAD:WebContent/ActorAdmin/adminUpdateCashier.jsp
 
 							</div>
 
-=======
-								
-							</div>
-							
->>>>>>> 4f2c96ca0ed68185d8abbdf616e7bac64e0efa4a:WebContent/adminUpdateCashier.jsp
 							<br>
 							<button type="submit" class="btnenable primary-btn">Update</button>	
 							</form>
