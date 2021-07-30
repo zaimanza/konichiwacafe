@@ -76,11 +76,11 @@ public class ItemController extends HttpServlet {
 			  }
 			  request.setAttribute("totalPriceItems", totalPriceItems);
 			  request.setAttribute("CartQty", CartQty);
-			  forward = "../ActorCustomer/viewItem.jsp"; 
+			  forward = "viewItem.jsp"; 
 		}
 		
 		if(action.equalsIgnoreCase("addItem")) {
-			forward = "../ActorAdmin/adminAddItem.jsp";
+			forward = "adminAddItem.jsp";
 		}
 		
 		if(action.equalsIgnoreCase("adminViewItem")) {
@@ -89,7 +89,7 @@ public class ItemController extends HttpServlet {
 			item.setItems(items);
 			
 			request.setAttribute("item", item.getItems());
-			forward = "../ActorAdmin/adminViewItem.jsp";
+			forward = "adminViewItem.jsp";
 		}
 				
 		if(action.equalsIgnoreCase("edit")) {
@@ -98,7 +98,7 @@ public class ItemController extends HttpServlet {
 			item = daoItem.getItemForUpdate(itemid);
 
 			request.setAttribute("item", item);   		
-    		forward = "../ActorAdmin/adminUpdateItem.jsp";		    		    		
+    		forward = "adminUpdateItem.jsp";		    		    		
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -145,7 +145,7 @@ public class ItemController extends HttpServlet {
 				
 				request.setAttribute("item", item.getItems());
 				request.setAttribute("added", "Item successfully added!");
-				forward = "../ActorAdmin/adminViewItem.jsp";
+				forward = "adminViewItem.jsp";
 			}
 			
 			if(item.isValid()) {
@@ -155,7 +155,7 @@ public class ItemController extends HttpServlet {
 				
 				request.setAttribute("item", item.getItems());
 				request.setAttribute("failed", "Oops, the item is already in the list!");
-				forward = "../ActorAdmin/adminViewItem.jsp";
+				forward = "adminViewItem.jsp";
 			}
 		}
 		
@@ -187,7 +187,7 @@ public class ItemController extends HttpServlet {
 			item.setItems(items);
 			
 			request.setAttribute("item", item.getItems());			
-			forward = "../ActorAdmin/adminViewItem.jsp";
+			forward = "adminViewItem.jsp";
 		}
 		
 		if(action.equalsIgnoreCase("deleteItem")) {
@@ -205,7 +205,7 @@ public class ItemController extends HttpServlet {
             request.setAttribute("deleted", "Item successfully deleted!");
             request.setAttribute("item",item.getItems());
 
-            forward = "../ActorAdmin/adminViewItem.jsp";
+            forward = "adminViewItem.jsp";
           }
 		
 		if(action.equalsIgnoreCase("itemByCategory")) { //Customer view item list by category
@@ -222,7 +222,7 @@ public class ItemController extends HttpServlet {
 			itemcategorylist = daoItem.getAllItemCategory();
 			itemcategory.setItemcategory(itemcategorylist);
 			
-			forward = "../ActorCustomer/viewItem.jsp";
+			forward = "viewItem.jsp";
 			request.setAttribute("item", item.getItems());
 			request.setAttribute("category", itemcategory.getItemcategory());
 			request.setAttribute("selectedModule", request.getParameter("itemcategoryid"));

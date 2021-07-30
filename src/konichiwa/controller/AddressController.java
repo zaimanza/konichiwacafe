@@ -46,7 +46,11 @@ public class AddressController extends HttpServlet {
     	customer = daoCustomer.getCustomerById(id);
     	
     	if(action.equalsIgnoreCase("addAddress")) {	
-    		forward = "../ActorCustomer/newAddress.jsp";
+    		forward = "newAddress.jsp";
+		}
+		
+		if(action.equalsIgnoreCase("addAddressCart")) {	
+    		forward = "newAddressCart.jsp";
 		}
     	
     	if(action.equalsIgnoreCase("viewAddress")) {
@@ -54,7 +58,7 @@ public class AddressController extends HttpServlet {
         	addresses = daoAddress.getAllAddress(id);
         	customer.setCustomerAddress(addresses);        	
     		
-    		forward = "../ActorCustomer/customerAddress.jsp";
+    		forward = "customerAddress.jsp";
     		request.setAttribute("cust",customer.getCustomerAddresses());    		
 		}	
 		
@@ -64,7 +68,7 @@ public class AddressController extends HttpServlet {
 			address = daoAddress.getAddressById(aid,id);
 
 			request.setAttribute("address", address);   		
-    		forward = "../ActorCustomer/updateAddress.jsp";		    		    		
+    		forward = "updateAddress.jsp";		    		    		
 		}
 		
 		if(action.equalsIgnoreCase("delete")) {
@@ -75,7 +79,7 @@ public class AddressController extends HttpServlet {
         	addresses = daoAddress.getAllAddress(customer.getCustid());
         	customer.setCustomerAddress(addresses);	        	
     		
-    		forward = "../ActorCustomer/customerAddress.jsp";
+    		forward = "customerAddress.jsp";
     		request.setAttribute("deleted", "Successfully deleted!");
     		request.setAttribute("cust",customer.getCustomerAddresses());		    		    		
 		}
@@ -108,15 +112,36 @@ public class AddressController extends HttpServlet {
 	        	addresses = daoAddress.getAllAddress(custid);
 	        	customer.setCustomerAddress(addresses);        	
 	    		
-	    		forward = "../ActorCustomer/customerAddress.jsp";
+	    		forward = "customerAddress.jsp";
 	    		request.setAttribute("updated", "Successfully added!");
 	    		request.setAttribute("cust",customer.getCustomerAddresses());		
 			}
 			else {
-	    		forward = "../ActorCustomer/profile.jsp";
+	    		forward = "profile.jsp";
 	    		request.setAttribute("outdated", "Failed to add!");
 			}
 				
+		}
+		
+		if(action.equalsIgnoreCase("newCart")) {
+			
+			Address address = new Address(street,city,postcode,state,custid);
+			double totalC = Double.parseDouble(request.getParameter("total"));
+			daoAddress.add(address);   		
+			
+			if(address.isValid()) {
+				List<Address> addresses = new ArrayList<Address>();
+	        	addresses = daoAddress.getAllAddress(custid);
+	        	customer.setCustomerAddress(addresses);        	
+	    		
+	    		request.setAttribute("addMsg", "Successfully added!");
+	    		request.setAttribute("cust",customer.getCustomerAddresses());		
+			}
+			else {
+	    		request.setAttribute("addMsg", "Failed to add! This can be cause by entering an identical address or Internet connection problem");
+			}
+			
+	    	forward = "OrdersController?action=createOrder&custID="+ custid +"&total="+ totalC;	
 		}
 		
 		if(action.equalsIgnoreCase("updateAddress")) {
@@ -136,13 +161,13 @@ public class AddressController extends HttpServlet {
 	        	addresses = daoAddress.getAllAddress(custid);
 	        	customer.setCustomerAddress(addresses);	        	
 	    		
-	    		forward = "../ActorCustomer/customerAddress.jsp";
+	    		forward = "customerAddress.jsp";
 	    		request.setAttribute("updated", "Successfully updated!");
 	    		request.setAttribute("cust",customer.getCustomerAddresses());
 		
 			}
 			else {
-	    		forward = "../ActorCustomer/updateAddress.jsp";
+	    		forward = "updateAddress.jsp";
 	    		request.setAttribute("outdated", "Failed to update!");
 			}
 				

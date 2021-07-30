@@ -213,7 +213,7 @@ public class RiderDAO {
 				rider.setStat(rs.getInt("RIDERVERSTAT"));
 				rider.setAvailable(rs.getInt("RIDERAVAILABLE"));
 //				rider.setStaffId(rs.getInt("staffId"));
-				if(rider.getAvailable()== 2) { //mungkin kena tukar
+				if(rider.getAvailable()== 2 && rider.getStat()==2) { //mungkin kena tukar
 					riders.add(rider);
 				}
 			}

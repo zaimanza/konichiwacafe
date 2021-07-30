@@ -36,15 +36,15 @@ public class CustomerController extends HttpServlet {
 		if(request.getParameter("i").equalsIgnoreCase("active")) {
 			request.setAttribute("checked", "active");
 			request.setAttribute("customerlist", daoCustomer.getAllCustomer(1));
-            forward = "../ActorAdmin/adminViewCustomer.jsp";
+            forward = "adminViewCustomer.jsp";
 		}else if(request.getParameter("i").equalsIgnoreCase("inactive")) {
 			request.setAttribute("checked", "inactive");
 			request.setAttribute("customerlist", daoCustomer.getAllCustomer(2));
-			forward = "../ActorAdmin/adminViewCustomer.jsp";
+			forward = "adminViewCustomer.jsp";
 		}else if(request.getParameter("i").equalsIgnoreCase("all")) {
 			request.setAttribute("checked", "all");
 			request.setAttribute("customerlist", daoCustomer.getAllCustomer(0));
-			forward = "../ActorAdmin/adminViewCustomer.jsp";
+			forward = "adminViewCustomer.jsp";
 		}
 		
 		else {
@@ -56,27 +56,27 @@ public class CustomerController extends HttpServlet {
 			request.setAttribute("customer", customer);
 			
 			if(action.equalsIgnoreCase("viewCustomer")) {			
-	    		forward = "../ActorCustomer/profile.jsp"; 
+	    		forward = "profile.jsp"; 
 			}
 			else if(action.equalsIgnoreCase("home")) {
-	    		forward = "../ActorCustomer/home.jsp"; 
+	    		forward = "home.jsp"; 
 	        }
 			else if(action.equalsIgnoreCase("updateProfile")) {
-				forward = "../ActorCustomer/updateProfile.jsp";
+				forward = "updateProfile.jsp";
 			}
 			else if(action.equalsIgnoreCase("psw")) {
-				forward = "../ActorCustomer/changePassword.jsp";
+				forward = "changePassword.jsp";
 			}
 			else if (action.equalsIgnoreCase("logout")) {
 				HttpSession session = request.getSession();  
 	            session.invalidate(); 
 	        	
 				System.out.println("Successfully logout");
-				forward = "../index.jsp";
+				forward = "index.jsp";
 	        }
 			//staff view customer's profile
 			else if(action.equalsIgnoreCase("customerDetails")) {
-				forward = "../ActorAdmin/adminUpdateCustomer.jsp";
+				forward = "adminUpdateCustomer.jsp";
 			}
 		}	
 		
@@ -109,12 +109,12 @@ public class CustomerController extends HttpServlet {
 				daoCustomer.add(customer);
 				//daoAddress.firstAddress(address);
 				request.setAttribute("success", "Successfully signed up !! You may login now");
-				forward = "../ActorCustomer/login.jsp";
+				forward = "login.jsp";
 			}
 			else
 			{
 				request.setAttribute("signuperror", "This email has been registered");
-				forward = "../ActorCustomer/signupcust.jsp";
+				forward = "signupcust.jsp";
 			}
 						
 		}
@@ -135,18 +135,18 @@ public class CustomerController extends HttpServlet {
 					session.setAttribute("custid",customer.getCustid());
 							
 					request.setAttribute("customer", customer);
-					forward = "../ActorCustomer/home.jsp";				
+					forward = "home.jsp";				
 				}
 				
 				if(customer.getAvailability().equals("2")) {
 					request.setAttribute("loginerror", "Your account has been deleted. Please contact our staff for recovery");
-					forward = "../ActorCustomer/login.jsp";
+					forward = "login.jsp";
 				}	
 			}
 			
 			else {
 				request.setAttribute("loginerror", "Invalid email / password");
-				forward = "../ActorCustomer/login.jsp";				
+				forward = "login.jsp";				
 			}			
 		}
 		
@@ -169,11 +169,11 @@ public class CustomerController extends HttpServlet {
 			
 			if(!customer.isValid()) {
 				request.setAttribute("updated", "Successfully updated!");
-				forward = "../ActorCustomer/profile.jsp";	
+				forward = "profile.jsp";	
 			}
 			else {
 				request.setAttribute("outdated", "Failed to update!");
-				forward = "../ActorCustomer/updateProfile.jsp";
+				forward = "updateProfile.jsp";
 			}
 		}
 		
@@ -192,11 +192,11 @@ public class CustomerController extends HttpServlet {
 			
 			if(!customer.isValid()) {
 				request.setAttribute("updated", "Successfully updated!");
-				forward = "../ActorCustomer/profile.jsp";	
+				forward = "profile.jsp";	
 			}
 			else {
 				request.setAttribute("outdated", "Failed to update!");
-				forward = "../ActorCustomer/changePassword.jsp";
+				forward = "changePassword.jsp";
 			}
 		}
 		
@@ -208,7 +208,7 @@ public class CustomerController extends HttpServlet {
             session.invalidate(); 
         	
 			System.out.println("Successfully logout and delete account");
-			forward = "../index.jsp";			
+			forward = "index.jsp";			
 		}
 		
 		//Staff update Customer's availability 
@@ -232,7 +232,7 @@ public class CustomerController extends HttpServlet {
 				request.setAttribute("outdated", "Failed to update!");
 			
 			request.setAttribute("customerlist", daoCustomer.getAllCustomer(0));
-			forward = "../ActorAdmin/adminViewCustomer.jsp";
+			forward = "adminViewCustomer.jsp";
 		}
 		
 		RequestDispatcher view = request.getRequestDispatcher(forward);

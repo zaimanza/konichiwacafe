@@ -38,7 +38,7 @@ public class StockController extends HttpServlet {
 			Item item = new Item();
 			item.setItems(items);
 			
-			forward = "../ActorCashier/cashierViewItemList.jsp";
+			forward = "cashierViewItemList.jsp";
 			request.setAttribute("item", item.getItems());
 		}	
 		
@@ -50,7 +50,7 @@ public class StockController extends HttpServlet {
 			
 			Item item = new Item();	
 			item = daoItem.getItemOlehId(id);
-			forward = "../ActorCashier/cashierUpdateStock.jsp";
+			forward = "cashierUpdateStock.jsp";
 			
 			request.setAttribute("item", item);
 		}
@@ -93,7 +93,7 @@ public class StockController extends HttpServlet {
 			Item updatedItemList = new Item();
 			updatedItemList.setItems(items);
 			
-			forward = "../ActorCashier/cashierViewItemList.jsp";
+			forward = "cashierViewItemList.jsp";
 			request.setAttribute("item", updatedItemList.getItems());
 		}
 		RequestDispatcher view = request.getRequestDispatcher(forward);

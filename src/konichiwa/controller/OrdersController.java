@@ -59,7 +59,6 @@ public class OrdersController extends HttpServlet {
         daoItem = new ItemDAO();
         daoOrder_Details = new Order_DetailsDAO();
         daoCustomer = new CustomerDAO();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -67,7 +66,7 @@ public class OrdersController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
-		
+		HttpSession cartsession = request.getSession();
 		//aiman
 		if (action.equalsIgnoreCase("viewRiderOrders")) {
 			
@@ -91,7 +90,7 @@ public class OrdersController extends HttpServlet {
 				});
 			}
 			request.setAttribute("email",email);
-			forward = "../ActorRider/riderHome.jsp";	
+			forward = "riderHome.jsp";	
 			if(!ordersReady.isEmpty()) {
 		        request.setAttribute("ordersReady", ordersReady);
 			}
@@ -121,7 +120,7 @@ public class OrdersController extends HttpServlet {
 					}
 				});
 			}
-			forward = "../ActorRider/riderHome.jsp";	
+			forward = "riderHome.jsp";	
 			if(!ordersReady.isEmpty()) {
 		        request.setAttribute("ordersReady", ordersReady);
 			}
@@ -148,7 +147,7 @@ public class OrdersController extends HttpServlet {
 					}
 				});
 			}
-			forward = "../ActorRider/riderHome.jsp";	
+			forward = "riderHome.jsp";	
 			if(!ordersReady.isEmpty()) {
 		        request.setAttribute("ordersReady", ordersReady);
 			}
@@ -169,7 +168,14 @@ public class OrdersController extends HttpServlet {
 		        request.setAttribute("listPrepare", listPrepare);
 			}
 			
-			forward ="../ActorCashier/cashierPrepareOrder.jsp";
+			int RiderId = Integer.parseInt(request.getParameter("RiderId"));
+			
+			Rider rider = new Rider();
+        	rider = daoRider.getRiderById(RiderId);      
+
+            request.setAttribute("rider", rider); 
+			
+			forward ="cashierPrepareOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("adminOrderPrepare")) {
@@ -183,7 +189,7 @@ public class OrdersController extends HttpServlet {
 		        request.setAttribute("listPrepare", listPrepare);
 			}
 			
-			forward ="../ActorAdmin/adminPrepareOrder.jsp";
+			forward ="adminPrepareOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("cashierUpdateOrderRider")) {
@@ -199,7 +205,9 @@ public class OrdersController extends HttpServlet {
 		        request.setAttribute("listNew", listNew);
 			}
 			
-			forward ="../ActorCashier/cashierNewOrder.jsp";
+			request.setAttribute("success", "You successfuly assign a rider.");
+			
+			forward ="cashierNewOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("adminUpdateOrderRider")) {
@@ -216,10 +224,12 @@ public class OrdersController extends HttpServlet {
 		        request.setAttribute("listNew", listNew);
 			}
 			
-			forward ="../ActorAdmin/adminNewOrder.jsp";
+			request.setAttribute("success", "You successfuly assign a rider.");
+			
+			forward ="adminNewOrder.jsp";
 		}
 		
-else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
+		else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			List<Orders> listNew = new ArrayList<Orders>();
 			listNew = daoOrder.getAllNewOrder();
@@ -227,7 +237,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listNew", listNew);
 			}
 			
-			forward ="../ActorCashier/cashierNewOrder.jsp";
+			forward ="cashierNewOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("cashierViewPrepareOrder")) {
@@ -238,7 +248,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listPrepare", listPrepare);
 			}
 			
-			forward ="../ActorCashier/cashierPrepareOrder.jsp";
+			forward ="cashierPrepareOrder.jsp";
 		}
 		
 
@@ -251,7 +261,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listTrack", listTrack);
 			}
 			
-			forward ="../ActorCashier/cashierTrackOrder.jsp";
+			forward ="cashierTrackOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("adminViewNewOrder")) {
@@ -262,7 +272,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listNew", listNew);
 			}
 			
-			forward ="../ActorAdmin/adminNewOrder.jsp";
+			forward ="adminNewOrder.jsp";
 		}
 		
 		else if(action.equalsIgnoreCase("adminViewPrepareOrder")) {
@@ -273,7 +283,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listPrepare", listPrepare);
 			}
 			
-			forward ="../ActorAdmin/adminPrepareOrder.jsp";
+			forward ="adminPrepareOrder.jsp";
 		}
 		
 
@@ -286,7 +296,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		        request.setAttribute("listTrack", listTrack);
 			}
 			
-			forward ="../ActorAdmin/adminTrackOrder.jsp";
+			forward ="adminTrackOrder.jsp";
 		}
 		
 		//rider
@@ -305,7 +315,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 	    	customer = daoCustomer.getCustomerById(custid); 
 			request.setAttribute("customer", customer);
 			
-			forward ="../ActorRider/riderOrderDetails.jsp";
+			forward ="riderOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			
 		}
@@ -314,18 +324,61 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 		
 		//sarah	
 		else if(action.equalsIgnoreCase("createOrder")) {
-			Customer customer = new Customer();
-			int custID = Integer.parseInt(request.getParameter("custID"));
-			double totalPrice = Double.parseDouble(request.getParameter("total"));
 			
-			List<Address> addresses = new ArrayList<Address>();
-        	addresses = daoAddress.getAllAddress(custID);
-        	customer.setCustomerAddress(addresses);        	
-        	
-        	System.out.println("Total Price: ");
-    		request.setAttribute("cust",customer.getCustomerAddresses());
-    		request.setAttribute("totalPrice",totalPrice);
-    		forward = "../ActorCustomer/createOrder.jsp";
+			cartlist=(ArrayList<Integer>)cartsession.getAttribute("cartlist");
+			itemQty = (ArrayList<Integer>)cartsession.getAttribute("itemQty");
+			String errQtyMsg ="To ensure we fulfil your order, real-time stock is being checked. We regret to inform you that some of the items in your cart have insufficient stock. Please remove the following item:\n";
+			
+			for(int i = 0; i < cartlist.size(); i++) {
+				System.out.println(cartlist.get(i));
+				System.out.println(itemQty.get(i));
+				System.out.println("calculating..");
+				
+				Item item = new Item();
+				item = daoItem.getItemById(cartlist.get(i), itemQty.get(i));
+				
+				if(item.getStock() < item.getQuantity()) {
+					errQtyMsg = errQtyMsg + "- " + item.getName() + "\n";
+				}
+			}
+			
+			
+			if(errQtyMsg.equals("To ensure we fulfil your order, real-time stock is being checked. We regret to inform you that some of the items in your cart have insufficient stock. Please remove the following item:\n")) {
+				Customer customer = new Customer();
+				int custID = Integer.parseInt(request.getParameter("custID"));
+				double totalPrice = Double.parseDouble(request.getParameter("total"));
+				
+				List<Address> addresses = new ArrayList<Address>();
+	        	addresses = daoAddress.getAllAddress(custID);
+	        	customer.setCustomerAddress(addresses);        	
+	        	
+	        	System.out.println("Total Price: ");
+	    		request.setAttribute("cust",customer.getCustomerAddresses());
+	    		request.setAttribute("totalPrice",totalPrice);
+	    		forward = "createOrder.jsp";
+			} else {
+				//call DAO
+				ArrayList<Item> listitemtwo= new ArrayList<Item>();
+				
+				double totalPriceItems = 0.0;
+				int CartQty = 0;
+				
+				if(cartlist!= null) {
+					for(int i=0; i<cartlist.size(); i++) {
+						Item tempItem = new Item();
+						tempItem = daoItem.getItemById(cartlist.get(i),itemQty.get(i));
+						listitemtwo.add(tempItem);
+						totalPriceItems = totalPriceItems +  ( tempItem.getPrice() * tempItem.getQuantity() );
+						CartQty = CartQty + tempItem.getQuantity();
+					}
+				
+				request.setAttribute("items", listitemtwo);
+				}
+				request.setAttribute("totalPriceItems", totalPriceItems);
+				request.setAttribute("CartQty", CartQty);
+				request.setAttribute("errQtyMsg", errQtyMsg);
+				forward="cart.jsp";
+			}
 		}
 		else if(action.equalsIgnoreCase("trackOrder")) {
 			Customer customer = new Customer();
@@ -335,7 +388,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			orderz = daoOrders.getAllOrderz(id);
 			customer.setCustomerOrderz(orderz);
 			
-			forward = "../ActorCustomer/trackOrder.jsp";
+			forward = "trackOrder.jsp";
 			request.setAttribute("order", customer.getCustomerOrderz());
 		}
 		
@@ -352,7 +405,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="../ActorCustomer/orderDetails.jsp";
+			forward ="orderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
 			
@@ -375,9 +428,22 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="../ActorAdmin/adminNewOrderDetails.jsp";
+			forward ="adminNewOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
+			
+			int custid= Integer.parseInt(request.getParameter("custId"));
+	    	
+	    	Customer customer = new Customer();
+	    	customer = daoCustomer.getCustomerById(custid); 
+			request.setAttribute("customer", customer);
+			
+			int RiderId = Integer.parseInt(request.getParameter("RiderId"));
+			
+			Rider rider = new Rider();
+        	rider = daoRider.getRiderById(RiderId);      
+
+            request.setAttribute("rider", rider); 
 		}
 		else if(action.equalsIgnoreCase("adminPrepareOrderdetails")) {
 			int id = Integer.parseInt(request.getParameter("i"));
@@ -390,9 +456,22 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="../ActorAdmin/adminPrepareOrderDetails.jsp";
+			forward ="adminPrepareOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
+			
+			int custid= Integer.parseInt(request.getParameter("custId"));
+	    	
+	    	Customer customer = new Customer();
+	    	customer = daoCustomer.getCustomerById(custid); 
+			request.setAttribute("customer", customer);
+			
+			int RiderId = Integer.parseInt(request.getParameter("RiderId"));
+			
+			Rider rider = new Rider();
+        	rider = daoRider.getRiderById(RiderId);      
+
+            request.setAttribute("rider", rider); 
 		}
 		else if(action.equalsIgnoreCase("adminTrackOrderdetails")) {
 			int id = Integer.parseInt(request.getParameter("i"));
@@ -405,9 +484,22 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="../ActorAdmin/adminTrackOrderDetails.jsp";
+			forward ="adminTrackOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
+			
+			int custid= Integer.parseInt(request.getParameter("custId"));
+	    	
+	    	Customer customer = new Customer();
+	    	customer = daoCustomer.getCustomerById(custid); 
+			request.setAttribute("customer", customer);
+			
+			int RiderId = Integer.parseInt(request.getParameter("RiderId"));
+			
+			Rider rider = new Rider();
+        	rider = daoRider.getRiderById(RiderId);      
+
+            request.setAttribute("rider", rider); 
 		}
 		
 		else if(action.equalsIgnoreCase("adminViewOrderdetails")) { //report
@@ -421,9 +513,22 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="../ActorAdmin/adminViewReportOrderDetails.jsp";
+			forward ="adminViewReportOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
+			
+			int custid= Integer.parseInt(request.getParameter("custId"));
+	    	
+	    	Customer customer = new Customer();
+	    	customer = daoCustomer.getCustomerById(custid); 
+			request.setAttribute("customer", customer);
+			
+			int RiderId = Integer.parseInt(request.getParameter("RiderId"));
+			
+			Rider rider = new Rider();
+        	rider = daoRider.getRiderById(RiderId);      
+
+            request.setAttribute("rider", rider); 
 		}
 		
 		
@@ -438,9 +543,22 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="../ActorCashier/cashierNewOrderDetails.jsp";
+			forward ="cashierNewOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
+			
+			int custid= Integer.parseInt(request.getParameter("custId"));
+	    	
+	    	Customer customer = new Customer();
+	    	customer = daoCustomer.getCustomerById(custid); 
+			request.setAttribute("customer", customer);
+			
+			int RiderId = Integer.parseInt(request.getParameter("RiderId"));
+			
+			Rider rider = new Rider();
+        	rider = daoRider.getRiderById(RiderId);      
+
+            request.setAttribute("rider", rider); 
 		}
 		else if(action.equalsIgnoreCase("cashierPrepareOrderdetails")) {
 			int id = Integer.parseInt(request.getParameter("i"));
@@ -453,9 +571,15 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="../ActorCashier/cashierPrepareOrderDetails.jsp";
+			forward ="cashierPrepareOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
+			
+			int custid= Integer.parseInt(request.getParameter("custId"));
+	    	
+	    	Customer customer = new Customer();
+	    	customer = daoCustomer.getCustomerById(custid); 
+			request.setAttribute("customer", customer);
 		}
 		else if(action.equalsIgnoreCase("cashierTrackOrderdetails")) {
 			int id = Integer.parseInt(request.getParameter("i"));
@@ -468,9 +592,22 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			payment = daoPayment.getPaymentByOrderID(id);
 			
-			forward ="../ActorCashier/cashierTrackOrderDetails.jsp";
+			forward ="cashierTrackOrderDetails.jsp";
 			request.setAttribute("orderdetails", orderDetails.getItemOrdered());
 			request.setAttribute("paymentdetails", payment);
+			
+			int custid= Integer.parseInt(request.getParameter("custId"));
+	    	
+	    	Customer customer = new Customer();
+	    	customer = daoCustomer.getCustomerById(custid); 
+			request.setAttribute("customer", customer);
+			
+			int RiderId = Integer.parseInt(request.getParameter("RiderId"));
+			
+			Rider rider = new Rider();
+        	rider = daoRider.getRiderById(RiderId);      
+
+            request.setAttribute("rider", rider); 
 		}
 		
 		//Aiman sampai sini
@@ -541,6 +678,7 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 	    	request.setAttribute("totalPrice", total2);
 			request.setAttribute("orders", orders);
 			request.setAttribute("grandTotal", grandTotal);
+			request.setAttribute("newOrderMsg", "Order is successfuly made!");
 			
 			//call DAO
 			ArrayList<Item> listitemtwo= new ArrayList<Item>();
@@ -556,8 +694,8 @@ else if(action.equalsIgnoreCase("cashierViewNewOrder")) {
 			
 			}
 			
-			forward = "../ActorCustomer/orderList.jsp";
-			//if not successful > back to ../ActorCustomer/createOrder.jsp
+			forward = "orderList.jsp";
+			//if not successful > back to createOrder.jsp
 		}//sarah habis
 		
 		

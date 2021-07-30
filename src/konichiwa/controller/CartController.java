@@ -131,7 +131,7 @@ public class CartController extends HttpServlet {
 			}
 			request.setAttribute("totalPriceItems", totalPriceItems);
 			request.setAttribute("CartQty", CartQty);
-			forward="../ActorCustomer/cart.jsp";
+			forward="cart.jsp";
 			
 		}
 		/*adib habis*/
